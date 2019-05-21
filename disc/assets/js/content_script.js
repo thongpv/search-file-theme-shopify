@@ -181,282 +181,279 @@ var _asyncToGenerator2 = __webpack_require__(/*! babel-runtime/helpers/asyncToGe
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
+var fetchFile = function () {
+    var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(files) {
+        var _this = this;
+
+        var shopID, dataFiles;
+        return _regenerator2.default.wrap(function _callee3$(_context3) {
+            while (1) {
+                switch (_context3.prev = _context3.next) {
+                    case 0:
+                        _context3.next = 2;
+                        return getShopID();
+
+                    case 2:
+                        shopID = _context3.sent;
+
+                        elTotalFile.innerHTML = files.length;
+                        elTotalFileWrap.style.display = "inline";
+
+                        _context3.next = 7;
+                        return _promise2.default.all(files.map(function (file) {
+                            return new _promise2.default(function () {
+                                var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(resolve) {
+                                    var dataAssetKey, response;
+                                    return _regenerator2.default.wrap(function _callee2$(_context2) {
+                                        while (1) {
+                                            switch (_context2.prev = _context2.next) {
+                                                case 0:
+                                                    dataAssetKey = file.getAttribute("data-asset-key");
+                                                    _context2.next = 3;
+                                                    return getDOMFromFile(shopID, dataAssetKey);
+
+                                                case 3:
+                                                    response = _context2.sent;
+
+
+                                                    if (response) {
+                                                        renderFile(dataAssetKey, elDisplay);
+                                                        totalCurrentFile++;
+                                                        elTotalCurrentFile.innerHTML = totalCurrentFile;
+
+                                                        arrFiles.push({
+                                                            name: dataAssetKey,
+                                                            data: response
+                                                        });
+                                                    }
+
+                                                    resolve(response);
+
+                                                case 6:
+                                                case "end":
+                                                    return _context2.stop();
+                                            }
+                                        }
+                                    }, _callee2, _this);
+                                }));
+
+                                return function (_x2) {
+                                    return _ref3.apply(this, arguments);
+                                };
+                            }());
+                        }));
+
+                    case 7:
+                        dataFiles = _context3.sent;
+                        return _context3.abrupt("return", dataFiles);
+
+                    case 9:
+                    case "end":
+                        return _context3.stop();
+                }
+            }
+        }, _callee3, this);
+    }));
+
+    return function fetchFile(_x) {
+        return _ref2.apply(this, arguments);
+    };
+}();
+
+var getDOMFromFile = function () {
+    var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(shopID, dataAssetKey) {
+        var url, _url, result, response;
+
+        return _regenerator2.default.wrap(function _callee4$(_context4) {
+            while (1) {
+                switch (_context4.prev = _context4.next) {
+                    case 0:
+                        url = "https://" + window.location.host + "/admin/themes/" + shopID + "/assets";
+                        _url = new URL(url);
+
+                        _url.searchParams.append("asset[key]", dataAssetKey);
+
+                        _context4.prev = 3;
+                        _context4.next = 6;
+                        return fetch(_url, {
+                            cache: "no-cache",
+                            headers: {
+                                Accept: "application/json, text/javascript, */*; q=0.01",
+                                Connection: "keep-alive",
+                                "Accept-Encoding": "gzip, deflate, br",
+                                "Accept-Language": "en-US,en;q=0.9",
+                                "Cache-Control": "no-cache",
+                                "Content-Type": "application/json",
+                                "X-Requested-With": "XMLHttpRequest",
+                                "X-Shopify-Web": 1
+                            }
+                        });
+
+                    case 6:
+                        result = _context4.sent;
+                        _context4.next = 9;
+                        return result.text();
+
+                    case 9:
+                        response = _context4.sent;
+                        return _context4.abrupt("return", response);
+
+                    case 13:
+                        _context4.prev = 13;
+                        _context4.t0 = _context4["catch"](3);
+
+                        console.log("Error: ", _context4.t0);
+                        return _context4.abrupt("return", false);
+
+                    case 17:
+                    case "end":
+                        return _context4.stop();
+                }
+            }
+        }, _callee4, this, [[3, 13]]);
+    }));
+
+    return function getDOMFromFile(_x3, _x4) {
+        return _ref4.apply(this, arguments);
+    };
+}();
+
+var getShopID = function () {
+    var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
+        var url, result, res, regex, ex, shopID;
+        return _regenerator2.default.wrap(function _callee5$(_context5) {
+            while (1) {
+                switch (_context5.prev = _context5.next) {
+                    case 0:
+                        url = "https://" + window.location.host + "/shop.json";
+                        _context5.next = 3;
+                        return fetch(url);
+
+                    case 3:
+                        result = _context5.sent;
+                        _context5.next = 6;
+                        return result.text();
+
+                    case 6:
+                        res = _context5.sent;
+                        regex = /Shopify.theme = (.*?);$/m;
+                        ex = regex.exec(res);
+                        shopID = JSON.parse(ex[1]).id;
+                        return _context5.abrupt("return", shopID);
+
+                    case 11:
+                    case "end":
+                        return _context5.stop();
+                }
+            }
+        }, _callee5, this);
+    }));
+
+    return function getShopID() {
+        return _ref5.apply(this, arguments);
+    };
+}();
+
 __webpack_require__(/*! @src/scss/main.scss */ "./src/scss/main.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var url_admin = ".myshopify.com/admin/themes/";
-if (window.location.href.indexOf(url_admin) > -1) {
-    var filterFileExtension = function filterFileExtension(fileName) {
-        for (var i = 0; i < excludeExtension.length; i++) {
-            if (fileName.indexOf(excludeExtension[i]) > -1) {
-                return false;
+document.body.insertAdjacentHTML("beforeend", "<div id=\"tool-shopify-wrap\">\n        <div id=\"tool-shopify-count-file\">\n            <span id=\"tool-shopify-total-current-file\"></span>\n            /\n            <span id=\"tool-shopify-total-file\"></span>\n        </div>\n\n        <div id=\"tool-shopify-alert\">Not found data!</div>\n\n        <ul id=\"tool-shopify-display\"></ul>\n\n        <button id=\"tool-shopify-btn\">Get Files</button>\n\n        <div id=\"tool-shopify-search\">\n            <input type=\"text\" />\n        </div>\n    </div>");
+
+var excludeExtension = [".svg", ".svg.liquid", ".png", ".png.liquid", ".js", ".scss", ".scss.liquid", ".css", ".css.liquid", ".js.liquid", ".json", ".json.liquid", ".oet", ".oet.liquid", ".eot", ".eot.liquid", ".ttf", ".ttf.liquid", ".woff", ".woff.liquid", ".jpg", ".jpg.liquid", ".gif", ".gif.liquid", ".jpeg", ".jpeg.liquid"];
+
+function filterFileExtension(fileName) {
+    for (var i = 0; i < excludeExtension.length; i++) {
+        if (fileName.indexOf(excludeExtension[i]) > -1) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+var arrFiles = [];
+// let totalFile = 0;
+var totalCurrentFile = 0;
+
+var elTotalCurrentFile = document.getElementById("tool-shopify-total-current-file");
+var elTotalFileWrap = document.getElementById("tool-shopify-count-file");
+var elTotalFile = document.getElementById("tool-shopify-total-file");
+var elDisplay = document.getElementById("tool-shopify-display");
+var elAlert = document.getElementById("tool-shopify-alert");
+var elBtn = document.getElementById("tool-shopify-btn");
+var elSearch = document.getElementById("tool-shopify-search");
+var elInput = document.querySelector("#tool-shopify-search input");
+
+elBtn.addEventListener("click", (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
+    var aList, files;
+    return _regenerator2.default.wrap(function _callee$(_context) {
+        while (1) {
+            switch (_context.prev = _context.next) {
+                case 0:
+                    aList = document.querySelectorAll(".asset-listing-theme-file");
+                    files = [].concat((0, _toConsumableArray3.default)(aList)).filter(function (item) {
+                        var dataAssetKey = item.getAttribute("data-asset-key");
+                        var isExclude = filterFileExtension(dataAssetKey);
+                        return isExclude;
+                    });
+
+                    if (!(files.length === 0)) {
+                        _context.next = 7;
+                        break;
+                    }
+
+                    elAlert.style.display = "block";
+                    elSearch.style.display = "none";
+                    _context.next = 12;
+                    break;
+
+                case 7:
+                    elAlert.style.display = "none";
+                    _context.next = 10;
+                    return fetchFile(files);
+
+                case 10:
+                    elBtn.style.cssText = "opacity: 0.5; pointer-events: none;";
+                    elSearch.style.display = "block";
+
+                case 12:
+                case "end":
+                    return _context.stop();
             }
         }
+    }, _callee, undefined);
+})));
 
-        return true;
-    };
+elInput.addEventListener("keyup", function (e) {
+    var value = e.target.value.trim();
+    var tempArrayFiles = [].concat(arrFiles);
+    elDisplay.innerHTML = "";
 
-    var renderFile = function renderFile(text, contain) {
-        var node = document.createElement("LI");
-        var textnode = document.createTextNode(text);
-        node.appendChild(textnode);
-        contain.appendChild(node);
-
-        node.addEventListener("click", function (e) {
-            var fileName = e.target.textContent;
-            var elFile = document.querySelector("a[data-asset-key=\"" + fileName + "\"]");
-            elFile.click();
-        });
-    };
-
-    var fetchFile = function () {
-        var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(files) {
-            var _this = this;
-
-            var shopID, dataFiles;
-            return _regenerator2.default.wrap(function _callee3$(_context3) {
-                while (1) {
-                    switch (_context3.prev = _context3.next) {
-                        case 0:
-                            _context3.next = 2;
-                            return getShopID();
-
-                        case 2:
-                            shopID = _context3.sent;
-
-                            elTotalFile.innerHTML = files.length;
-                            elTotalFileWrap.style.display = "inline";
-
-                            _context3.next = 7;
-                            return _promise2.default.all(files.map(function (file) {
-                                return new _promise2.default(function () {
-                                    var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(resolve) {
-                                        var dataAssetKey, response;
-                                        return _regenerator2.default.wrap(function _callee2$(_context2) {
-                                            while (1) {
-                                                switch (_context2.prev = _context2.next) {
-                                                    case 0:
-                                                        dataAssetKey = file.getAttribute("data-asset-key");
-                                                        _context2.next = 3;
-                                                        return getDOMFromFile(shopID, dataAssetKey);
-
-                                                    case 3:
-                                                        response = _context2.sent;
-
-
-                                                        if (response) {
-                                                            renderFile(dataAssetKey, elDisplay);
-                                                            totalCurrentFile++;
-                                                            elTotalCurrentFile.innerHTML = totalCurrentFile;
-
-                                                            arrFiles.push({
-                                                                name: dataAssetKey,
-                                                                data: response
-                                                            });
-                                                        }
-
-                                                        resolve(response);
-
-                                                    case 6:
-                                                    case "end":
-                                                        return _context2.stop();
-                                                }
-                                            }
-                                        }, _callee2, _this);
-                                    }));
-
-                                    return function (_x2) {
-                                        return _ref3.apply(this, arguments);
-                                    };
-                                }());
-                            }));
-
-                        case 7:
-                            dataFiles = _context3.sent;
-                            return _context3.abrupt("return", dataFiles);
-
-                        case 9:
-                        case "end":
-                            return _context3.stop();
-                    }
-                }
-            }, _callee3, this);
-        }));
-
-        return function fetchFile(_x) {
-            return _ref2.apply(this, arguments);
-        };
-    }();
-
-    var getDOMFromFile = function () {
-        var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(shopID, dataAssetKey) {
-            var url, _url, result, response;
-
-            return _regenerator2.default.wrap(function _callee4$(_context4) {
-                while (1) {
-                    switch (_context4.prev = _context4.next) {
-                        case 0:
-                            url = "https://" + window.location.host + "/admin/themes/" + shopID + "/assets";
-                            _url = new URL(url);
-
-                            _url.searchParams.append("asset[key]", dataAssetKey);
-
-                            _context4.prev = 3;
-                            _context4.next = 6;
-                            return fetch(_url, {
-                                cache: "no-cache",
-                                headers: {
-                                    Accept: "application/json, text/javascript, */*; q=0.01",
-                                    Connection: "keep-alive",
-                                    "Accept-Encoding": "gzip, deflate, br",
-                                    "Accept-Language": "en-US,en;q=0.9",
-                                    "Cache-Control": "no-cache",
-                                    "Content-Type": "application/json",
-                                    "X-Requested-With": "XMLHttpRequest",
-                                    "X-Shopify-Web": 1
-                                }
-                            });
-
-                        case 6:
-                            result = _context4.sent;
-                            _context4.next = 9;
-                            return result.text();
-
-                        case 9:
-                            response = _context4.sent;
-                            return _context4.abrupt("return", response);
-
-                        case 13:
-                            _context4.prev = 13;
-                            _context4.t0 = _context4["catch"](3);
-
-                            console.log("Error: ", _context4.t0);
-                            return _context4.abrupt("return", false);
-
-                        case 17:
-                        case "end":
-                            return _context4.stop();
-                    }
-                }
-            }, _callee4, this, [[3, 13]]);
-        }));
-
-        return function getDOMFromFile(_x3, _x4) {
-            return _ref4.apply(this, arguments);
-        };
-    }();
-
-    var getShopID = function () {
-        var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
-            var url, result, res, regex, ex, shopID;
-            return _regenerator2.default.wrap(function _callee5$(_context5) {
-                while (1) {
-                    switch (_context5.prev = _context5.next) {
-                        case 0:
-                            url = "https://" + window.location.host + "/shop.json";
-                            _context5.next = 3;
-                            return fetch(url);
-
-                        case 3:
-                            result = _context5.sent;
-                            _context5.next = 6;
-                            return result.text();
-
-                        case 6:
-                            res = _context5.sent;
-                            regex = /Shopify.theme = (.*?);$/m;
-                            ex = regex.exec(res);
-                            shopID = JSON.parse(ex[1]).id;
-                            return _context5.abrupt("return", shopID);
-
-                        case 11:
-                        case "end":
-                            return _context5.stop();
-                    }
-                }
-            }, _callee5, this);
-        }));
-
-        return function getShopID() {
-            return _ref5.apply(this, arguments);
-        };
-    }();
-
-    document.body.insertAdjacentHTML("beforeend", "<div id=\"tool-shopify-wrap\">\n        <div id=\"tool-shopify-count-file\">\n            <span id=\"tool-shopify-total-current-file\"></span>\n            /\n            <span id=\"tool-shopify-total-file\"></span>\n        </div>\n\n        <div id=\"tool-shopify-alert\">Not found data!</div>\n\n        <ul id=\"tool-shopify-display\"></ul>\n\n        <button id=\"tool-shopify-btn\">Get Files</button>\n\n        <div id=\"tool-shopify-search\">\n            <input type=\"text\" />\n        </div>\n    </div>");
-
-    var excludeExtension = [".svg", ".svg.liquid", ".png", ".png.liquid", ".js", ".scss", ".scss.liquid", ".css", ".css.liquid", ".js.liquid", ".json", ".json.liquid", ".oet", ".oet.liquid", ".eot", ".eot.liquid", ".ttf", ".ttf.liquid", ".woff", ".woff.liquid", ".jpg", ".jpg.liquid", ".gif", ".gif.liquid", ".jpeg", ".jpeg.liquid"];
-
-    var arrFiles = [];
-    // let totalFile = 0;
-    var totalCurrentFile = 0;
-
-    var elTotalCurrentFile = document.getElementById("tool-shopify-total-current-file");
-    var elTotalFileWrap = document.getElementById("tool-shopify-count-file");
-    var elTotalFile = document.getElementById("tool-shopify-total-file");
-    var elDisplay = document.getElementById("tool-shopify-display");
-    var elAlert = document.getElementById("tool-shopify-alert");
-    var elBtn = document.getElementById("tool-shopify-btn");
-    var elSearch = document.getElementById("tool-shopify-search");
-    var elInput = document.querySelector("#tool-shopify-search input");
-
-    elBtn.addEventListener("click", (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-        var aList, files;
-        return _regenerator2.default.wrap(function _callee$(_context) {
-            while (1) {
-                switch (_context.prev = _context.next) {
-                    case 0:
-                        aList = document.querySelectorAll(".asset-listing-theme-file");
-                        files = [].concat((0, _toConsumableArray3.default)(aList)).filter(function (item) {
-                            var dataAssetKey = item.getAttribute("data-asset-key");
-                            var isExclude = filterFileExtension(dataAssetKey);
-                            return isExclude;
-                        });
-
-                        if (!(files.length === 0)) {
-                            _context.next = 7;
-                            break;
-                        }
-
-                        elAlert.style.display = "block";
-                        elSearch.style.display = "none";
-                        _context.next = 12;
-                        break;
-
-                    case 7:
-                        elAlert.style.display = "none";
-                        _context.next = 10;
-                        return fetchFile(files);
-
-                    case 10:
-                        elBtn.style.cssText = "opacity: 0.5; pointer-events: none;";
-                        elSearch.style.display = "block";
-
-                    case 12:
-                    case "end":
-                        return _context.stop();
-                }
-            }
-        }, _callee, undefined);
-    })));
-
-    elInput.addEventListener("keyup", function (e) {
-        var value = e.target.value.trim();
-        var tempArrayFiles = [].concat(arrFiles);
-        elDisplay.innerHTML = "";
-
-        var result = tempArrayFiles.filter(function (contentTextFile) {
-            if (contentTextFile.data.indexOf(value) > -1) {
-                renderFile(contentTextFile.name, elDisplay);
-                return true;
-            }
-        });
-
-        elTotalCurrentFile.innerHTML = result.length;
+    var result = tempArrayFiles.filter(function (contentTextFile) {
+        if (contentTextFile.data.indexOf(value) > -1) {
+            renderFile(contentTextFile.name, elDisplay);
+            return true;
+        }
     });
 
-    elTotalFileWrap.addEventListener("click", function () {
-        elDisplay.classList.toggle("hide");
+    elTotalCurrentFile.innerHTML = result.length;
+});
+
+elTotalFileWrap.addEventListener("click", function () {
+    elDisplay.classList.toggle("hide");
+});
+
+function renderFile(text, contain) {
+    var node = document.createElement("LI");
+    var textnode = document.createTextNode(text);
+    node.appendChild(textnode);
+    contain.appendChild(node);
+
+    node.addEventListener("click", function (e) {
+        var fileName = e.target.textContent;
+        var elFile = document.querySelector("a[data-asset-key=\"" + fileName + "\"]");
+        elFile.click();
     });
 }
 
