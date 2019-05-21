@@ -102,7 +102,6 @@ elInput.addEventListener("keyup", e => {
     value = value.replace(/>/g, "\\u003e");
     value = value.replace(/\//g, "\\/");
 
-    console.log(value);
     const tempArrayFiles = [...arrFiles];
     elDisplay.innerHTML = "";
 
@@ -137,6 +136,12 @@ function renderFile(text, contain) {
 
 async function fetchFile(files) {
     const shopID = await getShopID();
+
+    if (!shopID) {
+        elAlert.style.display = "block";
+        return;
+    }
+
     elTotalFile.innerHTML = files.length;
     elTotalFileWrap.style.display = "inline";
 
@@ -161,8 +166,6 @@ async function fetchFile(files) {
             });
         })
     );
-
-    console.log(dataFiles);
 
     return dataFiles;
 }
@@ -196,13 +199,17 @@ async function getDOMFromFile(shopID, dataAssetKey) {
 }
 
 async function getShopID() {
-    const url = `https://${window.location.host}/shop.json`;
-    const result = await fetch(url);
-    const res = await result.text();
+    try {
+        const url = `https://${window.location.host}/shop.json`;
+        const result = await fetch(url);
+        const res = await result.text();
 
-    const regex = /Shopify.theme = (.*?);$/m;
-    const ex = regex.exec(res);
-    const shopID = JSON.parse(ex[1]).id;
+        const regex = /Shopify.theme = (.*?);$/m;
+        const ex = regex.exec(res);
+        const shopID = JSON.parse(ex[1]).id;
 
-    return shopID;
+        return shopID;
+    } catch (error) {
+        return null;
+    }
 }

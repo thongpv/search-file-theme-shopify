@@ -196,10 +196,20 @@ var fetchFile = function () {
                     case 2:
                         shopID = _context3.sent;
 
+                        if (shopID) {
+                            _context3.next = 6;
+                            break;
+                        }
+
+                        elAlert.style.display = "block";
+                        return _context3.abrupt("return");
+
+                    case 6:
+
                         elTotalFile.innerHTML = files.length;
                         elTotalFileWrap.style.display = "inline";
 
-                        _context3.next = 7;
+                        _context3.next = 10;
                         return _promise2.default.all(files.map(function (file) {
                             return new _promise2.default(function () {
                                 var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(resolve) {
@@ -243,15 +253,11 @@ var fetchFile = function () {
                             }());
                         }));
 
-                    case 7:
+                    case 10:
                         dataFiles = _context3.sent;
-
-
-                        console.log(dataFiles);
-
                         return _context3.abrupt("return", dataFiles);
 
-                    case 10:
+                    case 12:
                     case "end":
                         return _context3.stop();
                 }
@@ -329,28 +335,34 @@ var getShopID = function () {
             while (1) {
                 switch (_context5.prev = _context5.next) {
                     case 0:
+                        _context5.prev = 0;
                         url = "https://" + window.location.host + "/shop.json";
-                        _context5.next = 3;
+                        _context5.next = 4;
                         return fetch(url);
 
-                    case 3:
+                    case 4:
                         result = _context5.sent;
-                        _context5.next = 6;
+                        _context5.next = 7;
                         return result.text();
 
-                    case 6:
+                    case 7:
                         res = _context5.sent;
                         regex = /Shopify.theme = (.*?);$/m;
                         ex = regex.exec(res);
                         shopID = JSON.parse(ex[1]).id;
                         return _context5.abrupt("return", shopID);
 
-                    case 11:
+                    case 14:
+                        _context5.prev = 14;
+                        _context5.t0 = _context5["catch"](0);
+                        return _context5.abrupt("return", null);
+
+                    case 17:
                     case "end":
                         return _context5.stop();
                 }
             }
-        }, _callee5, this);
+        }, _callee5, this, [[0, 14]]);
     }));
 
     return function getShopID() {
@@ -439,7 +451,6 @@ elInput.addEventListener("keyup", function (e) {
     value = value.replace(/>/g, "\\u003e");
     value = value.replace(/\//g, "\\/");
 
-    console.log(value);
     var tempArrayFiles = [].concat(arrFiles);
     elDisplay.innerHTML = "";
 
