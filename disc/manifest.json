@@ -1,10 +1,10 @@
 {
     "manifest_version": 2,
     "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
-    "name": "Search file shopify",
+    "name": "Admin shopify search file",
     "version": "1.0.0.0",
     "default_locale": "en",
-    "description": "",
+    "description": "Search all files on shopify",
     "author": "Thong Pham",
     "background": {
         "persistent": false,
@@ -14,6 +14,7 @@
         {
             "matches": ["*://*/*"],
             "js": ["assets/js/vendors.js", "assets/js/content_script.js"],
+            "css": ["assets/css/content_script.css"],
             "run_at": "document_end"
         }
     ],
