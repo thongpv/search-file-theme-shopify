@@ -39,6 +39,7 @@
     },
     "dependencies": {
         "babel-runtime": "^6.26.0",
+        "js-string-escape": "^1.0.1",
         "vue": "^2.5.20",
         "vuex": "^3.0.1"
     }

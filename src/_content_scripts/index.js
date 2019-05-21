@@ -1,3 +1,4 @@
+import jsStringEscape from "js-string-escape";
 import "@src/scss/main.scss";
 
 document.body.insertAdjacentHTML(
@@ -96,7 +97,12 @@ elBtn.addEventListener("click", async () => {
 });
 
 elInput.addEventListener("keyup", e => {
-    const value = e.target.value.trim();
+    let value = jsStringEscape(e.target.value.trim());
+    value = value.replace(/</g, "\\u003c");
+    value = value.replace(/>/g, "\\u003e");
+    value = value.replace(/\//g, "\\/");
+
+    console.log(value);
     const tempArrayFiles = [...arrFiles];
     elDisplay.innerHTML = "";
 
@@ -155,6 +161,8 @@ async function fetchFile(files) {
             });
         })
     );
+
+    console.log(dataFiles);
 
     return dataFiles;
 }

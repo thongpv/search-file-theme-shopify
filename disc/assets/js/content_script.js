@@ -245,9 +245,13 @@ var fetchFile = function () {
 
                     case 7:
                         dataFiles = _context3.sent;
+
+
+                        console.log(dataFiles);
+
                         return _context3.abrupt("return", dataFiles);
 
-                    case 9:
+                    case 10:
                     case "end":
                         return _context3.stop();
                 }
@@ -354,6 +358,10 @@ var getShopID = function () {
     };
 }();
 
+var _jsStringEscape = __webpack_require__(/*! js-string-escape */ "./node_modules/js-string-escape/index.js");
+
+var _jsStringEscape2 = _interopRequireDefault(_jsStringEscape);
+
 __webpack_require__(/*! @src/scss/main.scss */ "./src/scss/main.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -426,7 +434,12 @@ elBtn.addEventListener("click", (0, _asyncToGenerator3.default)( /*#__PURE__*/_r
 })));
 
 elInput.addEventListener("keyup", function (e) {
-    var value = e.target.value.trim();
+    var value = (0, _jsStringEscape2.default)(e.target.value.trim());
+    value = value.replace(/</g, "\\u003c");
+    value = value.replace(/>/g, "\\u003e");
+    value = value.replace(/\//g, "\\/");
+
+    console.log(value);
     var tempArrayFiles = [].concat(arrFiles);
     elDisplay.innerHTML = "";
 
